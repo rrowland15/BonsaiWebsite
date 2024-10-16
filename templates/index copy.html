@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html>
+
+<!-- Style  -->
+
+<head>
+    <style>
+        body {
+            background-color: #cccccc;
+            font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif
+        }
+
+        h1 {
+            color: white;
+            background-color: rgb(72, 17, 17);
+            text-align: center;
+            font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif
+        }
+
+        h2 {
+            color: white;
+            background-color: rgb(72, 17, 17);
+            text-align: center;
+            font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif
+        }
+
+        p {
+            color: black;
+            text-align: center;
+            font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif
+        }
+
+        form {
+            text-align: center;
+            font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif
+        }
+    </style>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='styles/indexpage.css') }}">
+    <title>Home</title>
+</head>
+
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="#">Awesome Possums</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item active">
+                    <a class="nav-link" href="/">Index <span class="sr-only">(Current)</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/toolowners">Tool Owners</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/tools">Tools</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/manufacturingprocedures">Procedures</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/calibrationrecords">Calibration Records</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/procedureuselogs">Logs</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <h1>Homepage</h1>
+
+    <!-- 5 buttons and their functional descriptions -->
+
+    <div class="row-xl-4 d-flex justify-content-start align-items-center">
+        <span style="padding-left: 100px;"></span>
+        <a href="/toolowners" class="btn btn-primary btn-lg text-center" role="button" aria-pressed="true">Tool
+            Owners</a>
+        <span style="padding-left: 50px;"></span>
+
+        <div class=pull-right">
+            <p>Used for viewing and updating current tool owners and adding new tool owners </p>
+
+        </div>
+    </div>
+    </div>
+
+    <br>
+
+    <div class="row-xl-4 d-flex justify-content-start align-items-center">
+        <span style="padding-left: 100px;"></span>
+        <a href="/tools" class="btn btn-primary btn-lg text-center" role="button" aria-pressed="true">Tools</a>
+        <span style="padding-left: 50px;"></span>
+        <div class=pull-right">
+            <p>Used for viewing and updating current tools and adding new tools </p>
+        </div>
+    </div>
+
+    <br>
+
+    <div class="row-xl-4 d-flex justify-content-start align-items-center">
+        <span style="padding-left: 100px;"></span>
+        <a href="/manufacturingprocedures" class="btn btn-primary btn-lg text-center" role="button"
+            aria-pressed="true">Manufacturing Procedures</a>
+        <span style="padding-left: 50px;"></span>
+        <div class=pull-right">
+            <p>Used for view existing procedures and add new procedures </p>
+        </div>
+
+    </div>
+    </div>
+    <br>
+
+    <div class="row-xl-4 d-flex justify-content-start align-items-center">
+        <span style="padding-left: 100px;"></span>
+        <a href="/calibrationrecords" class="btn btn-primary btn-lg text-center" role="button"
+            aria-pressed="true">Calibration Records</a>
+        <span style="padding-left: 50px;"></span>
+        <div class=pull-right">
+            <p>Used for view existing calibration records and add new calibration records </p>
+
+        </div>
+    </div>
+    <br>
+
+    <div class="row-xl-4 d-flex justify-content-start align-items-center">
+        <span style="padding-left: 100px;"></span>
+        <a href="/procedureuselogs" class="btn btn-primary btn-lg text-center" role="button"
+            aria-pressed="true">Procedure Use Logs</a>
+        <span style="padding-left: 50px;"></span>
+        <div class=pull-right">
+            <p>Check Button</p>
+
+        </div>
+    </div>
+
+    <div class="card" style="width: 18rem;">
+        <img class="card-img-top"
+            src="https://www.monstertreeservice.com/cms/thumbnails/24/1080x540/images/articles/MTS_OUW_TakingCareOfTheOldestTreeInYourYard_BlogPhoto_Apr23.jpg"
+            alt="Card image cap">
+        <div class="card-body">
+            <h5 class="card-title">Shishigashira</h5>
+            <p class="card-text">Acquired Summer 2022</p>
+            <a href="#" class="btn btn-primary">Button Alternative to hover</a>
+        </div>
+    </div>
+
+    <div class="card" style="width: 18rem;">
+        <img class="card-img-top" src="{{url_for('static', filename='images/shishi.jpg')}}" alt="Card image cap">
+        <div class="card-body">
+            <h5 class="card-title">Shishigashira</h5>
+            <p class="card-text">Acquired Summer 2022</p>
+            <a href="#" class="btn btn-primary">Button Alternative to hover</a>
+        </div>
+    </div>
+
+    <div class="container">
+        <div id="closeablecard" class="card card-hover-shadow mt-4">
+            <div class="card-header bg-transparent border-bottom-0">
+                <button data-dismiss="alert" data-target="#closeablecard" type="button" class="close"
+                    aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="card-body mt-n5">
+                <h5 class="card-title">Your Title</h5>
+                <p class="card-text">
+                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptatem recusandae voluptate porro
+                    suscipit numquam distinctio ut. Qui vitae, ut non inventore necessitatibus quae doloribus rerum,
+                    quaerat commodi, nemo perferendis ab.
+                </p>
+                <a href="#" class="card-link">Card link</a>
+                <a href="#" class="card-link">Another link</a>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="card card-outline-danger text-center">
+        <span class="pull-right clickable close-icon" data-effect="fadeOut"><i class="fa fa-times"></i></span>
+        <div class="card-block">
+            <blockquote class="card-blockquote">
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante.</p>
+                <footer>Someone famous in <cite title="Source Title">Source Title</cite></footer>
+            </blockquote>
+        </div>
+    </div>
+
+
+
+
+
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"
+        integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.min.js"
+        integrity="sha384-IDwe1+LCz02ROU9k972gdyvl+AESN10+x7tBKgc9I5HFtuNz0wWnPclzo6p9vxnk"
+        crossorigin="anonymous"></script>
+    <script src={{url_for('static', filename='js/script.js' )}}></script>
+</body>
+
+</html>
