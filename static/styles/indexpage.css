@@ -1,5 +1,95 @@
 .card:hover {
-    box-shadow: 8px 8px 5px blue;
-    transform: scale(1.1);
+    box-shadow: 3px 3px 3px rgb(33, 85, 9);
+    transform: scale(1.02);
+}
 
+.cards {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+/* .card {
+    flex: 0 1 30%;
+} */
+
+.close-icon {
+    cursor: pointer;
+}
+
+.stretched-link {
+    color: white
+}
+
+.stretched-link:hover {
+    color: white
+}
+
+#delete_button {
+    display: none
+}
+
+.card:hover #delete_button {
+    display: inline-block;
+    background-color: red;
+    border: none;
+    position: absolute;
+    top: +1rem;
+    right: +1rem;
+
+    /* adjust the top position of the button */
+
+    /* adjust the left position of the button */
+    /* transform: translate(+200%, -1000%); */
+    /* center the button */
+    z-index: 2;
+}
+
+.card:hover #delete_button:hover {
+    display: inline-block;
+    background-color: red;
+    border: none;
+    position: absolute;
+    top: +1rem;
+    right: +1rem;
+    box-shadow: 3px 3px 3px white;
+    transform: scale(1.02);
+    /* adjust the top position of the button */
+
+    /* adjust the left position of the button */
+    /* transform: translate(+200%, -1000%); */
+    /* center the button */
+    z-index: 2;
+}
+
+body {
+    /* background-color: #cccccc; */
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif
+}
+
+p {
+    color: black;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif
+}
+
+form {
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif
+}
+
+
+h4 {
+    color: rgb(105, 105, 105)
+}
+
+#trial {
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-between;
+    align-content: center;
+    align-items: center;
+}
+
+#new_album:hover {
+    box-shadow: 3px 3px 3px red;
+    transform: scale(1.1);
 }
