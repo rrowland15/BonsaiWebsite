@@ -3,10 +3,18 @@
     transform: scale(1.02);
 }
 
+.card {
+    width: 450px;
+}
+
 .cards {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
+}
+
+#enhance {
+    width: 100%;
 }
 
 /* .card {
@@ -92,4 +100,61 @@ h4 {
 #new_album:hover {
     box-shadow: 3px 3px 3px red;
     transform: scale(1.1);
+}
+
+#inputfile::file-selector-button {
+    display: none;
+}
+
+/* #inputfile {
+    color: transparent;
+} */
+
+/* #inputfile::before {
+    content: url('https://via.placeholder.com/150');
+} */
+
+/* #inputfile::after {
+    content: "Browse";
+} */
+
+
+.hide {
+    display: none;
+}
+
+
+#imagePreview {
+    margin: 15px 0 0 0;
+    border: 2px solid #ddd;
+}
+
+/* #enhance:hover {
+    transform: scale(1.3);
+    z-index: 1000;
+    position: fixed;
+} */
+
+#image_popup {
+    position: fixed;
+    width: 90%;
+    height: 90%;
+    /*  so that not take place   */
+    top: 60%;
+    left: 50%;
+    z-index: 1000;
+    /*  adove all elements   */
+    transform: translate(-50%, -50%);
+    /*  make center   */
+
+    display: none;
+    overflow-y: auto;
+    /*  to hide first time   */
+}
+
+#show_image_popup img {
+    /* position: absolute; */
+    width: 100%;
+    max-width: 90%;
+    height: auto;
 }

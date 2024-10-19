@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html>
+
+<!-- Style  -->
+
+<head>
+    <style>
+
+    </style>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='styles/indexpage.css') }}">
+    <title>Journal Template</title>
+</head>
+
+<body>
+    <!-- script -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"
+        integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.min.js"
+        integrity="sha384-IDwe1+LCz02ROU9k972gdyvl+AESN10+x7tBKgc9I5HFtuNz0wWnPclzo6p9vxnk"
+        crossorigin="anonymous"></script>
+    <script src="{{url_for('static', filename='js/script.js' )}}"></script>
+
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
+        <img class="card-img-top" src="{{url_for('static', filename='images/gingkologo.png')}}" alt="Card image cap" ,
+            style="width:62px;height:51px;">
+        <a class="navbar-brand" href="#">Tree-search</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item active">
+                    <a class="nav-link" href="/">Albums </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/createalbum">Create Album</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/entrytemplate" style="font-weight:bold;">Entry Template</a>
+                </li>
+
+            </ul>
+        </div>
+    </nav>
+
+    <br>
+    <br>
+    <br>
+
+    <section class="bg-light pt-5 pb-5 shadow-sm">
+        <div class="container">
+            <div class="row">
+                <!-- <div class="col-12"> -->
+                <div id="trial">
+                    <div>
+                        <h2 class="text">Japanese Maple #1</h2>
+                    </div>
+                    <div>
+                        <a href="/createalbum" class="btn btn-primary mt-auto align-self-start"
+                            style="background-color:black;border-color:none;" id="new_album">Edit
+                            Album</a>
+                    </div>
+                </div>
+                <h4 class="border-bottom mb-4">From seed collected at Morton Arboretum</h4>
+                <!-- </div> -->
+            </div>
+            <div class="row gap-3">
+                <!--ADD CLASSES HERE d-flex align-items-stretch-->
+                <div class="card flex-row" id="enhance"><img class="card-img-left example-card-img-responsive"
+                        src="{{url_for('static', filename='images/whipjm.jpg')}}" style="object-fit:cover;width:400px;
+                        object-position: 50% 50%;" />
+                    <div class="card-body">
+                        <h4 class="card-title h5 h4-sm">Initial Stling</h4>
+                        <p class="card-text">First syling performed on japanese maple whip</p>
+                        <a href="#" class="btn btn-primary mt-auto align-self-start" id="delete_button">Delete</a>
+                    </div>
+                </div>
+
+                <!--good?-->
+                <div class="card flex-row" id="enhance"><img class="card-img-left example-card-img-responsive"
+                        src="{{url_for('static', filename='images/fallcol.jpg')}}" style="object-fit:cover;width:400px;
+                        object-position: 50% 50%;" />
+                    <div class="card-body">
+                        <h4 class="card-title h5 h4-sm">Fall Color</h4>
+                        <p class="card-text">Fall color observation</p>
+                    </div>
+                </div>
+
+                <div class="card flex-row" id="enhance"><img class="card-img-left example-card-img-responsive"
+                        src="{{url_for('static', filename='images/redjm.jpg')}}" style="object-fit:cover;width:400px;
+                    object-position: 50% 50%;" />
+                    <div class="card-body">
+                        <h4 class="card-title h5 h4-sm">Fall Color</h4>
+                        <p class="card-text">Fall color observation</p>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+        </div>
+    </section>
+
+    <!-- // popup modal -->
+
+    <div id="image_popup">
+
+        <div id="show_image_popup">
+            <!-- <button id="close-btn">Close</button>     close btn -->
+            <button class="btn btn-primary mt-auto align-self-start" style="background-color:black;border-color:none;"
+                id="close-btn">Close</button>
+            <img id="large-image" src="" alt="">
+
+            <!--     popup image -->
+        </div>
+    </div>
+
+
+    <script type="text/javascript">
+
+        $('.card').click(function () {
+            var path = $(this).find('.card-img-left:first').attr('src');
+            $("#large-image").attr("src", path);
+            // x_loc = $(this.img).attr('left');
+            $("#show_image_popup").fadeIn();
+            $('#image_popup').show();
+        })
+
+    </script>
+
+    <script type="text/javascript">$("#close-btn").click(function () {
+            $("#show_image_popup").fadeOut()
+            $("#image_popup").hide()
+        })</script> -->
+
+
+
+</body>
+
+</html>
