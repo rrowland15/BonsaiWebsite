@@ -49,8 +49,8 @@
         <button type="submit" class="btn btn-primary">Submit</button>
     </form> -->
     <br>
-    <br>
-    <br>
+
+
 
     <!-- <form action="/upload" method="post">
         <div class="input-group mb-3">
@@ -94,59 +94,150 @@
             });</script>
     </div> -->
 
-    <div class="col-lg-4 mb-3 d-flex align-items-stretch">
-        <div class="card">
-            <div clas="file_input_wrap">
-                <div class="input-group mb-3">
-                    <img src="{{url_for('static', filename='images/uploadlogo.jpg')}}" alt="Card image cap" ,
-                        style="width:75px;height:95px;" id="uploadButton">
-                    <a class="stretched-link" href="javascript:document.getElementById('imageUpload').click(); "></a>
-                    <!-- <input type="file" class="form-control" id="inputfile" name="imagefile" /> -->
+    <!-- <div class="col-lg-4 mb-3 d-flex align-items-stretch"> -->
 
-
-                    <input type="file" name="imageUpload" id="imageUpload" class="hide" />
-                    <!-- <label for="imageUpload" class="btn btn-large">Select file</label> -->
+    <section class="bg-light pt-5 pb-5 shadow-sm">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <div id="trial">
+                        <div>
+                            <h2 class="text-lowercase">rcrowland15</h2>
+                        </div>
+                    </div>
+                    <h4 class="border-bottom mb-4">Create Album</h4>
                 </div>
             </div>
-            <div class="img_preview_wrap">
-                <img src="" id="imagePreview" alt="Preview Image" width="100px" class="hide" />
-                <script>$('#imageUpload').change(function () {
-                        readImgUrlAndPreview(this);
 
-                        function readImgUrlAndPreview(input) {
-                            if (input.files && input.files[0]) {
-                                var reader = new FileReader();
-                                reader.onload = function (e) {
-                                    $('#imagePreview').removeClass('hide').attr('src', e.target.result);
-                                }
-                            };
-                            reader.readAsDataURL(input.files[0]);
-                        }
-                    });</script>
-            </div>
-            <div class="card-body d-flex flex-column">
+            <form id="newalb" action="/createalbum" method="post" enctype="multipart/form-data">
 
-                <h5 for="albumname" class="card-title">Album Name:</h5><br>
-                <input type="text" id="albumname" name="albumname"><br>
+                <div class="mb-3 d-flex align-items-stretch">
+                    <div class="card" style="margin:auto">
+                        <div class="row">
+                            <div class="file_input_wrap">
+                                <br>
+                                <div class="input-group mb-3">
+                                    <img src="{{url_for('static', filename='images/uploadlogo.png')}}"
+                                        alt="Card image cap" , style="width:75px;height:95px;margin:auto"
+                                        id="uploadButton">
+                                    <a class="stretched-link"
+                                        href="javascript:document.getElementById('imageUpload').click(); "></a>
+                                    <!-- <input type="file" class="form-control" id="inputfile" name="imagefile" /> -->
 
-                <h5 for="albumcontents" class="card-title">Album Description:</h5><br>
-                <span class="expandableinput" contenteditable="true" style="display: inline-block;
+
+                                    <input type="file" name="imageUpload" id="imageUpload" class="hide" />
+                                    <!-- <label for="imageUpload" class="btn btn-large">Select file</label> -->
+                                </div>
+                            </div>
+                            <div class="img_preview_wrap">
+                                <img src="" id="imagePreview" alt="Preview Image" style="height:275px;object-fit:cover;
+                            object-position: 50% 50%;" class="hide card-img-top" />
+                                <script>$('#imageUpload').change(function () {
+                                        readImgUrlAndPreview(this);
+
+                                        function readImgUrlAndPreview(input) {
+                                            if (input.files && input.files[0]) {
+                                                var reader = new FileReader();
+                                                reader.onload = function (e) {
+                                                    $('#imagePreview').removeClass('hide').attr('src', e.target.result);
+                                                }
+                                            };
+                                            reader.readAsDataURL(input.files[0]);
+                                            // $('input#imageUpload').val(reader);
+                                        }
+                                    });</script>
+                            </div>
+                        </div>
+                        <div class="card-body d-flex flex-column">
+
+                            <h5 for="albumname" class="card-title">Album Name:</h5><br>
+                            <input type="text" id="albumname" name="albumname"><br>
+
+                            <h5 class="card-title">Album Description:</h5><br>
+                            <input type="hidden" id="albumcontents-input" name="albumcontents-input"></input>
+                            <span id="albumcontents" class="expandableinput" contenteditable="true" style="display: inline-block;
              border: solid 1px black; object-fit:cover">
-                </span>
-            </div>
-        </div>
-    </div>
+                            </span>
+                        </div>
+                    </div>
+                </div>
 
-    <div clas="file_input_wrap">
+
+
+                <div class="card flex-row " id="enhance">
+                    <div class="file_input_wrap">
+                        <br>
+                        <div class="input-group mb-3">
+                            <img src="{{url_for('static', filename='images/uploadlogo.png')}}" alt="Card image cap" ,
+                                style="width:75px;height:95px;margin:auto" id="uploadButton">
+                            <a class="stretched-link"
+                                href="javascript:document.getElementById('imageUpload2').click(); "></a>
+                            <input type="file" name="imageUpload2" id="imageUpload2" class="hide" />
+                        </div>
+                    </div>
+                    <div class="img_preview_wrap">
+                        <img src="" id="imagePreview2" alt="Preview Image" style="height:275px;object-fit:cover;
+                    object-position: 50% 50%;" class="hide card-img-top" />
+                        <script>$('#imageUpload2').change(function () {
+                                readImgUrlAndPreview(this);
+
+                                function readImgUrlAndPreview(input) {
+                                    if (input.files && input.files[0]) {
+                                        var reader = new FileReader();
+                                        reader.onload = function (e) {
+                                            $('#imagePreview2').removeClass('hide').attr('src', e.target.result);
+                                        }
+                                    };
+                                    reader.readAsDataURL(input.files[0]);
+                                }
+                            });</script>
+                    </div>
+                    <div class="card-body">
+                        <input type="hidden" name="journal-name-input" id="journal-name-input"></input>
+                        <input type="hidden" name="journal-content-input" id="journal-content-input"></input>
+                        <h4 id="journal-name" class="card-title h5 h4-sm" contenteditable="True">Write your journal
+                            entry name here</h4>
+                        <p id="journal-content" class="card-text" contenteditable="True">Add your journal content here
+                        </p>
+                    </div>
+
+                </div>
+                <!-- <a method="post" href="/createalbum" class="btn btn-primary mt-auto align-self-start"
+                style="background-color:black;border-color:none;" id="new_album">Add Entry</a> -->
+
+                <button type="submit" class="btn btn-primary mx-auto" style="width: 100px;">Add</button>
+                <script>$(document).ready(function () {
+                        $(document).on("submit", "form#newalb", function (e) {
+                            e.preventDefault();
+
+                            var contents = $("#albumcontents").html();
+                            var contents2 = $("#journal-name").html();
+                            var contents3 = $("#journal-content").html();
+                            console.log(contents)
+                            console.log(contents2)
+                            console.log(contents3)
+
+                            $('input#albumcontents-input').val(contents);
+                            $('input#journal-name-input').val(contents2);
+                            $('input#journal-content-input').val(contents3);
+                            this.submit();
+                        });
+                    });
+                </script>
+
+            </form>
+
+
+
+
+
+            <!-- <div clas="file_input_wrap">
         <div class="input-group mb-3">
             <img src="{{url_for('static', filename='images/uploadlogo.jpg')}}" alt="Card image cap" ,
                 style="width:75px;height:95px;" id="uploadButton">
             <a class="stretched-link" href="javascript:document.getElementById('imageUpload').click(); "></a>
-            <!-- <input type="file" class="form-control" id="inputfile" name="imagefile" /> -->
-
-
             <input type="file" name="imageUpload" id="imageUpload" class="hide" />
-            <!-- <label for="imageUpload" class="btn btn-large">Select file</label> -->
+    
         </div>
     </div>
     <div class="img_preview_wrap">
@@ -164,53 +255,56 @@
                     reader.readAsDataURL(input.files[0]);
                 }
             });</script>
-    </div>
+    </div> -->
 
-    <br>
-    <br>
-    <br>
+            <br>
+            <br>
+            <br>
 
-    <section class="bg-light pt-5 pb-5 shadow-sm">
-        <div class="container">
-            <div class="row">
-                <!-- <div class="col-12"> -->
-                <div id="trial">
-                    <div>
-                        <h2 class="text">Japanese Maple #1</h2>
+            <section class="bg-light pt-5 pb-5 shadow-sm">
+                <div class="container">
+                    <div class="row">
+                        <!-- <div class="col-12"> -->
+                        <div id="trial">
+                            <div>
+                                <h2 class="text">Japanese Maple #1</h2>
+                            </div>
+                            <div>
+                                <a href="/createalbum" class="btn btn-primary mt-auto align-self-start"
+                                    style="background-color:black;border-color:none;" id="new_album">Edit
+                                    Album</a>
+                            </div>
+                        </div>
+                        <h4 class="border-bottom mb-4">From seed collected at Morton Arboretum</h4>
+                        <!-- </div> -->
                     </div>
-                    <div>
-                        <a href="/createalbum" class="btn btn-primary mt-auto align-self-start"
-                            style="background-color:black;border-color:none;" id="new_album">Edit
-                            Album</a>
-                    </div>
-                </div>
-                <h4 class="border-bottom mb-4">From seed collected at Morton Arboretum</h4>
-                <!-- </div> -->
-            </div>
-            <div class="row gap-3">
-                <!--ADD CLASSES HERE d-flex align-items-stretch-->
-                <div class="card flex-row" id="enhance"><img class="card-img-left example-card-img-responsive"
-                        src="{{url_for('static', filename='images/whipjm.jpg')}}" style="object-fit:cover;width:400px;
+                    <div class="row gap-3">
+                        <!--ADD CLASSES HERE d-flex align-items-stretch-->
+                        <div class="card flex-row" id="enhance"><img class="card-img-left example-card-img-responsive"
+                                src="{{url_for('static', filename='images/whipjm.jpg')}}" style="object-fit:cover;width:400px;
                         object-position: 50% 50%;" />
-                    <div class="card-body">
-                        <h4 class="card-title h5 h4-sm">Initial Stling</h4>
-                        <p class="card-text">First syling performed on japanese maple whip</p>
-                        <a href="#" class="btn btn-primary mt-auto align-self-start" id="delete_button">Delete</a>
-                    </div>
-                </div>
+                            <div class="card-body">
+                                <h4 class="card-title h5 h4-sm">Initial Stling</h4>
+                                <p class="card-text">First syling performed on japanese maple whip</p>
+                                <a href="#" class="btn btn-primary mt-auto align-self-start"
+                                    id="delete_button">Delete</a>
+                            </div>
+                        </div>
 
 
 
-                <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"
-                    integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3"
-                    crossorigin="anonymous"></script>
-                <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"
-                    integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3"
-                    crossorigin="anonymous"></script>
-                <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.min.js"
-                    integrity="sha384-IDwe1+LCz02ROU9k972gdyvl+AESN10+x7tBKgc9I5HFtuNz0wWnPclzo6p9vxnk"
-                    crossorigin="anonymous"></script>
-                <script src="{{url_for('static', filename='js/script.js' )}}"></script>
+
+
+                        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"
+                            integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3"
+                            crossorigin="anonymous"></script>
+                        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"
+                            integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3"
+                            crossorigin="anonymous"></script>
+                        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.min.js"
+                            integrity="sha384-IDwe1+LCz02ROU9k972gdyvl+AESN10+x7tBKgc9I5HFtuNz0wWnPclzo6p9vxnk"
+                            crossorigin="anonymous"></script>
+                        <script src="{{url_for('static', filename='js/script.js' )}}"></script>
 </body>
 
 </html>

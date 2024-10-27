@@ -1,12 +1,10 @@
 <!DOCTYPE html>
 <html>
 
-<!-- Style  -->
+<!-- Header  -->
 
 <head>
-    <style>
-
-    </style>
+    <style></style>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet"
@@ -40,7 +38,7 @@
     <br>
 
 
-    <!-- show all album cards-->
+    <!-- album card intro-->
     <section class="bg-light pt-5 pb-5 shadow-sm">
         <div class="container">
             <div class="row">
@@ -58,10 +56,11 @@
                     <h4 class="border-bottom mb-4">Albums</h4>
                 </div>
             </div>
+
+            <!-- start album cards-->
             <div class="row">
-                <!--ADD CLASSES HERE d-flex align-items-stretch-->
                 <div class="col-lg-4 mb-3 d-flex align-items-stretch">
-                    <div class="card">
+                    <div class="card supercard">
                         <img src="{{url_for('static', filename='images/shishi.jpg')}}" class="card-img-top"
                             alt="Card Image" style="height:275px;object-fit:cover;
                             object-position: 50% 50%;">
@@ -70,13 +69,12 @@
                             <p class="card-text mb-4">Acquired Summer 2023 from Mount Vernon.</p>
                             <a href="/entrytemplate" class="stretched-link">Go somewhere</a>
                             <a href="#" class="btn btn-primary mt-auto align-self-start" id="delete_button">Delete</a>
-                            <!-- <a href="#" class="btn btn-primary mt-auto align-self-start">Book now</a> -->
                         </div>
                     </div>
                 </div>
-                <!--ADD CLASSES HERE d-flex align-items-stretch-->
+
                 <div class="col-lg-4 mb-3 d-flex align-items-stretch">
-                    <div class="card">
+                    <div class="card supercard">
                         <!-- <img src="https://storage.googleapis.com/treephotos/little_tree" class="card-img-top"
                             alt="Card Image" style="height:275px;object-fit:cover;
                             object-position: 50% 50%;"> -->
@@ -88,13 +86,11 @@
                             <p class="card-text mb-4">Grown from seed collected at Morton Arboretum 2019.</p>
                             <a href="/entrytemplate" class="stretched-link">Go somewhere</a>
                             <a href="#" class="btn btn-primary mt-auto align-self-start" id="delete_button">Delete</a>
-                            <!-- <a href="#" class="btn btn-primary mt-auto align-self-start">Book now</a> -->
                         </div>
                     </div>
                 </div>
-                <!--ADD CLASSES HERE d-flex align-items-stretch-->
                 <div class="col-lg-4 mb-3 d-flex align-items-stretch">
-                    <div class="card">
+                    <div class="card supercard">
                         <img src="{{url_for('static', filename='images/satsuki.jpg')}}" class="card-img-top"
                             alt="Card Image" style="height:275px;object-fit:cover;
                             object-position: 50% 50%;">
@@ -103,12 +99,11 @@
                             <p class="card-text mb-4">Gifted by deep-sea diver.</p>
                             <a href="/indexactual" class="stretched-link">Go somewhere</a>
                             <a href="#" class="btn btn-primary mt-auto align-self-start" id="delete_button">Delete</a>
-                            <!-- <a href="#" class="btn btn-primary mt-auto align-self-start">Book now</a> -->
                         </div>
                     </div>
                 </div>
                 <div class="col-lg-4 mb-3 d-flex align-items-stretch">
-                    <div class="card">
+                    <div class="card supercard">
                         <img src="{{url_for('static', filename='images/jbp.jpg')}}" class="card-img-top"
                             alt="Card Image" style="height:275px;object-fit:cover;
                             object-position: 50% 50%;">
@@ -117,12 +112,11 @@
                             <p class="card-text mb-4">Acquired Summer 2023</p>
                             <a href="/indexactual" class="stretched-link">Go somewhere</a>
                             <a href="#" class="btn btn-primary mt-auto align-self-start" id="delete_button">Delete</a>
-                            <!-- <a href="#" class="btn btn-primary mt-auto align-self-start">Book now</a> -->
                         </div>
                     </div>
                 </div>
                 <div class="col-lg-4 mb-3 d-flex align-items-stretch">
-                    <div class="card">
+                    <div class="card supercard">
                         <img src="{{url_for('static', filename='images/redjm.jpg')}}" class="card-img-top"
                             alt="Card Image" style="height:275px;object-fit:cover;
                             object-position: 50% 50%;">
@@ -131,12 +125,11 @@
                             <p class="card-text mb-4">Grown from seed from 2020</p>
                             <a href="/indexactual" class="stretched-link">Go somewhere</a>
                             <a href="#" class="btn btn-primary mt-auto align-self-start" id="delete_button">Delete</a>
-                            <!-- <a href="#" class="btn btn-primary mt-auto align-self-start">Book now</a> -->
                         </div>
                     </div>
                 </div>
                 <div class="col-lg-4 mb-3 d-flex align-items-stretch">
-                    <div class="card">
+                    <div class="card supercard">
                         <img src="{{url_for('static', filename='images/goldjun.jpg')}}" class="card-img-top"
                             alt="Card Image" style="height:275px;object-fit:cover;
                             object-position: 50% 50%;">
@@ -145,7 +138,6 @@
                             <p class="card-text mb-4">Acquired Spring 2020 as Nursery Stock</p>
                             <a href="/indexactual" class="stretched-link">Go somewhere</a>
                             <a href="#" class="btn btn-primary mt-auto align-self-start" id="delete_button">Delete</a>
-                            <!-- <a href="#" class="btn btn-primary mt-auto align-self-start">Book now</a> -->
                         </div>
                     </div>
                 </div>
