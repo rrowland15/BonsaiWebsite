@@ -10,7 +10,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='styles/indexpage.css') }}">
-    <title>Login</title>
+    <title>Register</title>
 </head>
 
 <body>
@@ -25,52 +25,44 @@
     </h1>
 
     <br>
-
-    <div class="container" id="loginbox">
-        <form method="post" action="/login">
+    <form method="post" action="/register">
+        <div class="container" id="loginbox">
             <br>
 
 
             <div class="mb-3">
-                <label for="formGroupExampleInput" class="form-label">Email</label>
+                <label for="email" class="form-label">Email</label>
                 <input type="text" name="email" class="form-control" id="formGroupExampleInput" placeholder="Email">
             </div>
             <div class="mb-3">
-                <label for="formGroupExampleInput2" class="form-label" style="align-items:left">Password</label>
+                <label for="password" class="form-label" style="align-items:left">Password</label>
                 <input type="text" name="password" class="form-control" id="formGroupExampleInput2"
                     placeholder="Password">
             </div>
 
+
             <button type="submit" class="btn btn-primary"
-                style="background-color:black;border-color:none;display: block; margin: 0 auto;" id="new_album">Sign
-                In</button>
+                style="background-color:black;border-color:none;display: block; margin: 0 auto;width: 450px;"
+                id="new_album">Register</button>
             <br>
-            {% for message in get_flashed_messages() %}
 
-            <div class="alert alert-danger" role="alert">
-                {{message}}
-            </div>
+        </div>
 
-            {% endfor %}
-        </form>
-
-        <br>
-    </div>
-
-
+    </form>
 
     <div class="container" id="loginbox" style="border:0px; text-align:center">
         <br>
 
 
-        <p> New User?</p>
+        <p> Already Signed Up?</p>
 
-        <a href="/register" class="btn btn-primary"
-            style="background-color:black;border-color:none;display: block; margin: 0 auto;" id="new_album">Register</a>
-
+        <a href="/" class="btn btn-primary"
+            style="background-color:black;border-color:none;display: block; margin: 0 auto;width:450px"
+            id="new_album">Sign In</a>
         <br>
 
-        <p>A new way to organize, share and get feedback on your bonsai photos from your local bonsai community</p>
+        <p>This site is exclusive to PSBA members, not a member, join today!</p>
+        <a href="https://www.pugetsoundbonsai.com/">https://www.pugetsoundbonsai.com/</a>
 
         <br>
     </div>

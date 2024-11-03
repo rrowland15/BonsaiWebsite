@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html>
+
+<!-- Style  -->
+
+<head>
+    <style>
+
+    </style>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='styles/indexpage.css') }}">
+    <title>Albums</title>
+</head>
+
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
+        <img class="card-img-top" src="{{url_for('static', filename='images/gingkologo.png')}}" alt="Card image cap" ,
+            style="width:62px;height:51px;">
+        <a class="navbar-brand" href="#">Tree-search</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item active">
+                    <a class="nav-link" href="{{url_for('albums', message=user_email) }}">Albums </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{url_for('createalbum', message=user_email) }}"
+                        style="font-weight:bold;">Create Album</a>
+                </li>
+
+            </ul>
+        </div>
+    </nav>
+
+    <br>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script>
+
+    {# Album Entry Card #}
+    <section class="bg-light pt-5 pb-5 shadow-sm">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <div id="trial">
+                        <div>
+                            <h2 class="text-lowercase">{{user_email}}</h2>
+                        </div>
+                    </div>
+                    <h4 class="border-bottom mb-4">Create Album</h4>
+                </div>
+            </div>
+            <form id="newalb" action="{{url_for('createalbum', message=user_email) }}" method="post"
+                enctype="multipart/form-data">
+                <div class="mb-3 d-flex align-items-stretch">
+                    <div class="card" style="margin:auto">
+                        <div class="row">
+                            <div class="file_input_wrap">
+                                <br>
+                                <div class="input-group mb-3">
+                                    <img src="{{url_for('static', filename='images/uploadlogo.png')}}"
+                                        alt="Card image cap" , style="width:75px;height:95px;margin:auto"
+                                        id="uploadButton">
+                                    <a class="stretched-link"
+                                        href="javascript:document.getElementById('imageAlbumUpload').click(); "></a>
+                                    <input type="file" name="imageAlbumUpload" id="imageAlbumUpload" class="hide" />
+                                </div>
+                            </div>
+                            <div class="img_preview_wrap">
+                                <img src="" id="imageAlbumPreview" alt="Preview Image" style="height:275px;object-fit:cover;
+                            object-position: 50% 50%;" class="hide card-img-top" />
+                                <script>$('#imageAlbumUpload').change(function () {
+                                        readImgUrlAndPreview(this);
+
+                                        function readImgUrlAndPreview(input) {
+                                            if (input.files && input.files[0]) {
+                                                var reader = new FileReader();
+                                                reader.onload = function (e) {
+                                                    $('#imageAlbumPreview').removeClass('hide').attr('src', e.target.result);
+                                                }
+                                            };
+                                            reader.readAsDataURL(input.files[0]);
+                                            // $('input#imageUpload').val(reader);
+                                        }
+                                    });</script>
+                            </div>
+                        </div>
+                        <div class="card-body d-flex flex-column">
+                            <h5 for="albumname" class="card-title">Album Name:</h5><br>
+                            <input type="text" id="albumname" name="albumname"><br>
+                            <h5 class="card-title">Album Description:</h5><br>
+                            <input type="hidden" id="albumcontents-input" name="albumcontents-input">
+                            <span id="albumcontents" class="expandableinput" contenteditable="true" style="display: inline-block;
+             border: solid 1px black; object-fit:cover">
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bucketforentries">
+
+                    <div class="card flex-row " id="enhance">
+                        <div class="file_input_wrap">
+                            <br>
+                            <div class="input-group mb-3">
+                                <img src="{{url_for('static', filename='images/uploadlogo.png')}}" alt="Card image cap"
+                                    , style="width:75px;height:95px;margin:auto" id="uploadButton">
+                                <a class="stretched-link"
+                                    href="javascript:document.getElementById('imageUpload0').click(); "></a>
+                                <input type="file" name="imageUpload0" id="imageUpload0" class="hide imageUpload" />
+                            </div>
+                        </div>
+                        <div class="img_preview_wrap">
+                            <img src="" id="imagePreview0" alt="Preview Image" style="height:275px;object-fit:cover;
+                    object-position: 50% 50%;" class="hide card-img-top imagePreview" />
+
+                        </div>
+                        <div class="card-body">
+                            <input type="hidden" name="journal-name-input0" id="journal-name-input0">
+                            <input type="hidden" name="journal-content-input0" id="journal-content-input0">
+                            <h4 id="journal-name" class="card-title h5 h4-sm journaltitle" contenteditable="True">Write
+                                your
+                                journal
+                                entry name here</h4>
+                            <p id="journal-content" class="card-text journalcontent" contenteditable="True">Add your
+                                journal
+                                content here
+                            </p>
+                        </div>
+                    </div>
+                    <!-- <a method="post" href="/createalbum" class="btn btn-primary mt-auto align-self-start"
+                style="background-color:black;border-color:none;" id="new_album">Add Entry</a> -->
+
+                    <script>$(document).ready(function () {
+                            $(document).on("submit", "form#newalb", function (e) {
+                                e.preventDefault();
+                                var contents = $("#albumcontents").html();
+                                console.log(contents)
+                                $('input#albumcontents-input').val(contents);
+                                const h4Elements = document.querySelectorAll('.journaltitle');
+                                hcount = 0
+                                h4Elements.forEach(element => {
+                                    $('input#journal-name-input' + hcount).val(element.textContent);
+                                    hcount++;
+                                });
+                                pcount = 0
+                                const pElements = document.querySelectorAll('.journalcontent');
+                                pElements.forEach(element => {
+                                    $('input#journal-content-input' + pcount).val(element.textContent);
+                                    pcount++;
+                                });
+                                this.submit();
+                            });
+                        });
+                    </script>
+                </div>
+
+
+
+                <button type="button" id="addInput">Add Input</button>
+                <input type="submit" id="your-form-submit" style="display: none;">
+
+
+
+            </form>
+
+            <br>
+            <br>
+            <br>
+
+            <label for="your-form-submit" role="button" class="btn btn-primary" tabindex="0">
+                Submit Form
+            </label>
+
+            <script>
+                let inputCount = 0;
+
+                $('#addInput').click(function () {
+                    inputCount++;
+                    //Build
+                    const divCard = $('<div>', { class: "card flex-row", id: "enhance" });
+                    const divWrap = $('<div>', { class: "file_input_wrap" });
+                    const breaker = $('<br>');
+                    const divInputGroup = $('<div>', { class: "input-group mb-3" });
+                    const uploadLogo = $('<img>', {
+                        src: "{{url_for('static', filename='images/uploadlogo.png')}}", alt: "Card image cap",
+                        style: "width:75px;height:95px;margin:auto", id: "uploadButton"
+                    });
+                    const anchorid = "javascript:document.getElementById('" + 'imageUpload' + inputCount + "').click();";
+                    const anchor = $('<a>', { id: "linker" + inputCount, class: "stretched-link", href: anchorid });
+                    const inputfile = $('<input>', { type: "file", name: "imageUpload" + inputCount, id: "imageUpload" + inputCount, class: "hide imageUpload" });
+
+                    const divPreviewWrap = $('<div>', { class: "img_preview_wrap" });
+                    const imagePreview = $('<img>', { src: "", id: "imagePreview" + inputCount, alt: "Preview Image", style: "height:275px;object-fit:cover;object-position: 50% 50%;", class: "hide card-img-top imagePreview" });
+                    const divCardBody = $('<div>', { class: "card-body" });
+                    const inputJournalTitle = $('<input>', { type: "hidden", name: "journal-name-input" + inputCount, id: "journal-name-input" + inputCount });
+                    const inputJournalContent = $('<input>', { type: "hidden", name: "journal-content-input" + inputCount, id: "journal-content-input" + inputCount });
+                    const JournalName = $('<h4>', { id: "journal-name" + inputCount, class: "card-title h5 h4-sm journaltitle", contenteditable: "True" });
+                    const JournalContent = $('<p>', { id: "journal-content" + inputCount, class: "card-text journalcontent", contenteditable: "True" });
+
+                    //Place
+                    $('.bucketforentries').append(divCard);
+                    divCard.append(divWrap);
+                    divWrap.append(breaker);
+                    divWrap.append(divInputGroup);
+                    divInputGroup.append(uploadLogo);
+                    divInputGroup.append(anchor);
+                    divInputGroup.append(inputfile);
+                    divCard.append(divPreviewWrap);
+                    divPreviewWrap.append(imagePreview);
+                    divCard.append(divCardBody);
+                    divCardBody.append(inputJournalTitle);
+                    divCardBody.append(inputJournalContent);
+                    divCardBody.append(JournalName);
+                    divCardBody.append(JournalContent);
+                    document.getElementById("journal-content" + inputCount).innerHTML = "Add your journal content here";
+                    document.getElementById("journal-name" + inputCount).innerHTML = "Write your journal entry name here";
+                    const myid = '#imagePreview' + inputCount.toString()
+                    document.getElementById("imageUpload" + inputCount).addEventListener('change', function () {
+                        var elementId = $(this).attr('id');
+                        var nextpreviewId = $(this).next('.imagePreview')
+                        console.log(elementId);
+                        console.log(nextpreviewId);
+                        readImgUrlAndPreview(this);
+
+                        function readImgUrlAndPreview(input) {
+
+                            if (input.files && input.files[0]) {
+                                var reader = new FileReader();
+                                reader.onload = function (e) {
+
+                                    $(myid).removeClass('hide').attr('src', e.target.result);
+                                }
+                            };
+                            reader.readAsDataURL(input.files[0]);
+                        }
+                    });
+                });
+
+
+
+
+            </script>
+
+            <script>$(document).ready(function () {
+                    $('.imageUpload').change(function () {
+                        var elementId = $(this).attr('id');
+                        console.log(elementId);
+                        readImgUrlAndPreview(this);
+
+                        function readImgUrlAndPreview(input) {
+                            const myid = '#imagePreview0'
+                            console.log(myid);
+                            console.log($(myid).attr('id'));
+
+
+                            if (input.files && input.files[0]) {
+                                var reader = new FileReader();
+                                reader.onload = function (e) {
+
+                                    $('#imagePreview0').removeClass('hide').attr('src', e.target.result);
+                                }
+                            };
+                            reader.readAsDataURL(input.files[0]);
+                        }
+                    });
+                });</script>
+
+
+
+            <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"
+                integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3"
+                crossorigin="anonymous"></script>
+            <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"
+                integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3"
+                crossorigin="anonymous"></script>
+            <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.min.js"
+                integrity="sha384-IDwe1+LCz02ROU9k972gdyvl+AESN10+x7tBKgc9I5HFtuNz0wWnPclzo6p9vxnk"
+                crossorigin="anonymous"></script>
+            <script src="{{url_for('static', filename='js/script.js' )}}"></script>
+</body>
+
+</html>
