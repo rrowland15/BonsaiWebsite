@@ -43,7 +43,7 @@
             method="POST">
             <input class="form-control mr-sm-2" id="other_email" name="other_email" type="text"
                 placeholder="Search Users" aria-label="Search">
-            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+            <button style="margin-right:15px" class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
         </form>
     </nav>
     <br>
@@ -51,6 +51,9 @@
 
     <!-- album card intro-->
     <section class="bg-light pt-5 pb-5 shadow-sm">
+        <button type="button" onclick="helpButton()"
+            style="float:right; margin-right: 15px; background-color:rgb(70, 142, 66)"
+            class="btn btn-secondary mt-auto align-self-end" id="help_button">Help</button>
         <div class="container">
             <div class="row">
                 <div class="col-12">
@@ -83,12 +86,17 @@
                         <div class="card-body d-flex flex-column">
                             <h5 class="card-title">{{adata[1]}}</h5>
                             <p class="card-text mb-4">{{adata[2]}}</p>
-                            <a href="/entrytemplate/{{adata[3]}}" class="stretched-link">Go to journal entries</a>
-                            <form method="POST" action="{{url_for('deletealbum', message=user_email) }}">
+                            <form method="POST" action="{{url_for('entrytemplate', message=user_email) }}">
                                 <input type="hidden" name="associatedalbum" value={{adata[3]}}>
-                                <button type="submit" class="btn btn-primary mt-auto align-self-start"
-                                    id="delete_button">Delete</button>
+                                <button type="submit" class="stretched-link"></button>
                             </form>
+                            {# <a href="/entrytemplate/{{adata[3]}}" class="stretched-link">Go to journal entries</a> #}
+                            <form id=deleteform method="POST" action="{{url_for('deletealbum', message=user_email) }}">
+                                <input type="hidden" name="associatedalbum" value={{adata[3]}}>
+                                <button type="button" onclick="confirmDeletion()"
+                                    class="btn btn-primary mt-auto align-self-start" id="delete_button">Delete</button>
+                            </form>
+
                         </div>
                     </div>
                 </div>
@@ -98,16 +106,60 @@
         </div>
     </section>
 
-    <script>function myFunction(e) {
-            e.preventDefault();
+
+    <script>function confirmDeletion() {
+
             swal({
                 title: "Are you sure you want to delete your album?",
                 text: "All album contents will be lost",
                 icon: "warning",
-                buttons: ["No", "Yes, delete my album"],
+                buttons: {
+                    cancel: {
+                        text: "No",
+                        value: null,
+                        visible: true,
+                        className: "",
+                        closeModal: true,
+                    },
+                    confirm: {
+                        text: "Yes, delete my album",
+                        value: true,
+                        visible: true,
+                        className: "",
+                        closeModal: true
+                    }
+                },
                 dangerMode: true,
+            })
+                .then((value) => {
+                    console.log("im in the then statement")
+                    const val = value;
+                    console.log(val)
+                    if (val == true) {
+
+
+                        document.getElementById('deleteform').submit();
+                    }
+                });
+        }</script>
+
+    <script>function helpButton() {
+            swal({
+                title: "How To:",
+                text: "New user, no problem!\n\nClick the create new album button to get started. Once your albums are created they will appear on this page and you can click an album card to visit your album to see more photos!\n\n Not quite ready for that or looking for some friendly inspiration?\n\nFeel free to search for other users using the search bar in the upper right hand corner or explore our list of registered users albums using the 'Browse Users' link in the Navigation Bar"
             });
         }</script>
+
+
+
+
+
+
+
+
+
+
+
 
 
 

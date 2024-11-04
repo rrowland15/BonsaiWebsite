@@ -41,13 +41,13 @@
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav">
                 <li class="nav-item active">
-                    <a class="nav-link" href="/albums">Albums </a>
+                    <a class="nav-link" href="{{url_for('albums', message=user_email) }}">Albums </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/createalbum">Create Album</a>
+                    <a class="nav-link" href="{{url_for('createalbum', message=user_email) }}">Create Album</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/entrytemplate" style="font-weight:bold;">Entry Template</a>
+                    <a class="nav-link" href="#" style="font-weight:bold;">Entry Template</a>
                 </li>
 
             </ul>
@@ -59,6 +59,10 @@
     <br>
 
     <section class="bg-light pt-5 pb-5 shadow-sm">
+
+        <button type="button" onclick="helpButton()"
+            style="float:right; margin-right: 15px; background-color:rgb(70, 142, 66)"
+            class="btn btn-secondary mt-auto align-self-end" id="help_button">Help</button>
         <div class="container">
             {% for adata in albumdata %}
             <div class="row">
@@ -135,7 +139,17 @@
     <script type="text/javascript">$("#close-btn").click(function () {
             $("#show_image_popup").fadeOut()
             $("#image_popup").hide()
-        })</script> -->
+        })</script>
+
+    <script>function helpButton() {
+            swal({
+                title: "How To:",
+                text: "Hey check out all these cool photos you added!\n\nWant to take a closer look?\n\nClick the pictures to magnify but don't forget to close the picture with the 'close' button on the left of the screen.\n\nNot looking quite right? Click the edit album button to correct any oopsies!"
+            });
+        }</script>
+
+
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 
 
 
