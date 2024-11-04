@@ -185,6 +185,37 @@ def deletealbum():
 
     return redirect(url_for('albums', message=user_email))
 
+@app.route("/deleteentry", methods=['GET', 'POST'])
+def deleteentry():
+    print("in delete entry")
+
+    imagelink_nop = request.form["imagelink"]
+    associatedalbum = request.form["associatedalbum"]
+    print(associatedalbum)
+    
+    imagelink = '"' + imagelink_nop + '"'
+    
+    user_email = request.args.get('message')
+
+    
+    connection = sqlite3.connect("sqlite/mytest.db")
+    cursor = connection.cursor()
+
+
+
+    deleteDatabaseEntry = '''DELETE FROM UserTreePictures Where imagelink = {}'''.format(imagelink)
+    deleteEntry = cursor.execute(deleteDatabaseEntry)
+
+    
+    dellink = "rcrowland15/"+imagelink_nop
+    print(dellink)
+    delete_blob('treephotos',dellink)
+
+    connection.commit()
+    cursor.close()
+
+    return redirect(url_for('entrytemplate', message=user_email, associatedalbum=associatedalbum))
+
 
 @app.route("/createalbum", methods=['GET', 'POST'])
 def createalbum():
@@ -222,13 +253,13 @@ def createalbum():
         journalnames = []
         journalcontents = []
 
-        for key,val in request.files.items():
+        for key,val in request.files.items(): #journal images
             if key!= "imageAlbumUpload":
                 journalimages.append(val)
 
         count = 3
         for key,val in request.form.items():
-            if key!= "albumname" and key!= "albumcontents":
+            if key!= "albumname" and key!= "albumcontents-input":
 
                 if count%2: journalcontents.append(val)
                 else: journalnames.append(val)
@@ -282,7 +313,7 @@ def createalbum():
             blob.upload_from_file(journalimage)
 
 
-            # store journal entry in database (I think i need an extra field for associated album)
+            # store journal entry in database 
             connection = sqlite3.connect("sqlite/mytest.db")
             cursor = connection.cursor()
             # tempname2 = '"'+strippedjournalname+'.jpg"'
@@ -305,6 +336,36 @@ def createalbum():
 def entrytemplate():
 
     user_email = request.args.get('message')
+    print(user_email)
+   
+    if request.method == "POST":
+        print(request.form)
+        associatedalbum = request.form["associatedalbum"]
+
+    else:
+        associatedalbum = request.args.get("associatedalbum")
+
+    associatedalbum = '"'+associatedalbum+'"'
+
+    connection = sqlite3.connect("sqlite/mytest.db")
+    cursor = connection.cursor()
+    query = '''SELECT imagelink, imagetitle, imagedescription, associatedalbum from UserTreePictures Where associatedalbum = {} and albumcover = False'''.format(associatedalbum)
+    journaldata = cursor.execute(query).fetchall()
+
+    query2 = '''SELECT imagelink, imagetitle, imagedescription, associatedalbum from UserTreePictures Where associatedalbum = {} and albumcover = True'''.format(associatedalbum)
+    albumdata = cursor.execute(query2).fetchall()
+    # if request.method == 'POST':
+    #     pass
+
+    
+    return render_template("entrytemplate.j2", journaldata=journaldata,albumdata=albumdata,user_email=user_email)
+
+
+@app.route("/otherentrytemplate", methods=['GET', 'POST'])
+def otherentrytemplate():
+
+    user_email = request.args.get('message')
+    print(user_email)
    
     print(request.form)
     associatedalbum = request.form["associatedalbum"]

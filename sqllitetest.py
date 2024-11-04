@@ -6,8 +6,10 @@ cursor = connection.cursor()
 # rows = cursor.execute("SELECT * from UserAlbums").fetchall()
 # print(rows)
 
-#CREATE TABLE UserTreePictures (email varchar(255), imagelink varchar(255), albumcover Bool, albumtitle  varchar(255), imagedescription varchar(1000), picturedate datetime);
-query1 = 'Insert Into UserTreePictures Values ("album@gmail.com", "shishi.jpg", True, "Shishigashira", "Acquired Summer 2023 from Mount Vernon", "1/1/2025")'
+
+#CREATE TABLE UserTreePictures (email varchar(255), imagelink varchar(255), albumcover Bool, associatedalbum varchar(255), imagetitle  varchar(255), imagedescription varchar(1000), picturedate datetime);
+
+query1 = 'Insert Into UserTreePictures Values ("album@gmail.com", "shishi.jpg", True, "Shishigashira", "Shishigashira", "Acquired Summer 2023 from Mount Vernon", "1/1/2025")'
 query2 = 'Insert Into UserTreePictures Values ("album@gmail.com", "elm.jpg", True, "Siberian Elm", "Grown from seed from Indiana", "1/1/2019")'
 query3 = 'Insert Into UserTreePictures Values ("album@gmail.com", "satsuki.jpg", True, "Satsuki Azalea", "Gifted by deep-sea diver", "1/1/2025")'
 query4 = 'Insert Into UserTreePictures Values ("album@gmail.com", "jbp.jpg", True, "Japanese Black Pine", "Acquired Summer 2023", "1/1/2025")'

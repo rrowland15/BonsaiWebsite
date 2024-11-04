@@ -17,29 +17,45 @@
 
 <body>
     <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
-        <img class="card-img-top" src="{{url_for('static', filename='images/gingkologo.png')}}" alt="Card image cap" ,
-            style="width:62px;height:51px;">
-        <a class="navbar-brand" href="#">Tree-search</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
-            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav">
-                <li class="nav-item active">
-                    <a class="nav-link" href="{{url_for('albums', message=user_email) }}">Albums </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{{url_for('createalbum', message=user_email) }}"
-                        style="font-weight:bold;">Create Album</a>
-                </li>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container-fluid">
+            <img class="card-img-top" src="{{url_for('static', filename='images/gingkologo.png')}}" alt="Card image cap"
+                , style="width:62px;height:51px;">
+            <a class="navbar-brand" href="{{url_for('albums', message=user_email) }}">Tree-search</a>
 
-            </ul>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+                aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item active">
+                        <a class="nav-link" href="{{url_for('albums', message=user_email) }}">Albums </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{url_for('createalbum', message=user_email) }}"
+                            style="font-weight:bold;">Create Album</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{url_for('browseusers', message=user_email) }}">Browse Users</a>
+                    </li>
+
+
+                </ul>
+
+                <form class="form-inline d-flex" style="display:flex"
+                    action="{{url_for('otheralbums', message=user_email) }}" method="POST">
+                    <input class="form-control me-2" id="other_email" name="other_email" type="text"
+                        placeholder="Search Users" aria-label="Search">
+                    <button style="margin-right:15px" class="btn btn-outline-success my-2 my-sm-0"
+                        type="submit">Search</button>
+                </form>
+            </div>
         </div>
     </nav>
 
-    <br>
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script>
 
     {# Album Entry Card #}
@@ -105,39 +121,8 @@
                     </div>
                 </div>
 
-                <div class="bucketforentries">
+                <div class="bucketforentries" id="bucketforentries">
 
-                    <div class="card flex-row " id="enhance">
-                        <div class="file_input_wrap">
-                            <br>
-                            <div class="input-group mb-3">
-                                <img src="{{url_for('static', filename='images/uploadlogo.png')}}" alt="Card image cap"
-                                    , style="width:75px;height:95px;margin:auto" id="uploadButton">
-                                <a class="stretched-link"
-                                    href="javascript:document.getElementById('imageUpload0').click(); "></a>
-                                <input type="file" name="imageUpload0" id="imageUpload0" class="hide imageUpload" />
-                            </div>
-                        </div>
-                        <div class="img_preview_wrap">
-                            <img src="" id="imagePreview0" alt="Preview Image" style="height:275px;object-fit:cover;
-                    object-position: 50% 50%;" class="hide card-img-top imagePreview" />
-
-                        </div>
-                        <div class="card-body">
-                            <input type="hidden" name="journal-name-input0" id="journal-name-input0">
-                            <input type="hidden" name="journal-content-input0" id="journal-content-input0">
-                            <h4 id="journal-name" class="card-title h5 h4-sm journaltitle" contenteditable="True">Write
-                                your
-                                journal
-                                entry name here</h4>
-                            <p id="journal-content" class="card-text journalcontent" contenteditable="True">Add your
-                                journal
-                                content here
-                            </p>
-                        </div>
-                    </div>
-                    <!-- <a method="post" href="/createalbum" class="btn btn-primary mt-auto align-self-start"
-                style="background-color:black;border-color:none;" id="new_album">Add Entry</a> -->
 
                     <script>$(document).ready(function () {
                             $(document).on("submit", "form#newalb", function (e) {
@@ -165,7 +150,7 @@
 
 
 
-                <button type="button" id="addInput">Add Input</button>
+                <button type="button" id="addInput">Add Journal Entry</button>
                 <input type="submit" id="your-form-submit" style="display: none;">
 
 
@@ -177,11 +162,11 @@
             <br>
 
             <label for="your-form-submit" role="button" class="btn btn-primary" tabindex="0">
-                Submit Form
+                Create my album!
             </label>
 
             <script>
-                let inputCount = 0;
+                let inputCount = -1;
 
                 $('#addInput').click(function () {
                     inputCount++;
@@ -205,6 +190,7 @@
                     const inputJournalContent = $('<input>', { type: "hidden", name: "journal-content-input" + inputCount, id: "journal-content-input" + inputCount });
                     const JournalName = $('<h4>', { id: "journal-name" + inputCount, class: "card-title h5 h4-sm journaltitle", contenteditable: "True" });
                     const JournalContent = $('<p>', { id: "journal-content" + inputCount, class: "card-text journalcontent", contenteditable: "True" });
+                    const closeButtonContent = $('<button>', { id: "close" + inputCount, class: "btn-close removeInput" });
 
                     //Place
                     $('.bucketforentries').append(divCard);
@@ -221,6 +207,7 @@
                     divCardBody.append(inputJournalContent);
                     divCardBody.append(JournalName);
                     divCardBody.append(JournalContent);
+                    divCard.append(closeButtonContent);
                     document.getElementById("journal-content" + inputCount).innerHTML = "Add your journal content here";
                     document.getElementById("journal-name" + inputCount).innerHTML = "Write your journal entry name here";
                     const myid = '#imagePreview' + inputCount.toString()
@@ -243,12 +230,18 @@
                             reader.readAsDataURL(input.files[0]);
                         }
                     });
+                    document.getElementById("close" + inputCount).addEventListener('click', function () {
+                        var elementId = $(this).attr('id');
+                        parentDiv = this.parentNode.remove()
+
+                    });
+
+
                 });
 
-
-
-
             </script>
+
+
 
             <script>$(document).ready(function () {
                     $('.imageUpload').change(function () {

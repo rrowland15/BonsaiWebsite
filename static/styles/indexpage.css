@@ -34,11 +34,11 @@
     color: white
 }
 
-#delete_button {
+.delete_button {
     display: none
 }
 
-.card:hover #delete_button {
+.card:hover .delete_button {
     display: inline-block;
     background-color: red;
     border: none;
@@ -54,7 +54,7 @@
     z-index: 2;
 }
 
-.card:hover #delete_button:hover {
+.card:hover .delete_button:hover {
     display: inline-block;
     background-color: red;
     border: none;

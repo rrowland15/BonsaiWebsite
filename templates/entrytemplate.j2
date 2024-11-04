@@ -30,33 +30,43 @@
     <script src="{{url_for('static', filename='js/script.js' )}}"></script>
 
     <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
-        <img class="card-img-top" src="{{url_for('static', filename='images/gingkologo.png')}}" alt="Card image cap" ,
-            style="width:62px;height:51px;">
-        <a class="navbar-brand" href="#">Tree-search</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
-            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav">
-                <li class="nav-item active">
-                    <a class="nav-link" href="{{url_for('albums', message=user_email) }}">Albums </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{{url_for('createalbum', message=user_email) }}">Create Album</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#" style="font-weight:bold;">Entry Template</a>
-                </li>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container-fluid">
+            <img class="card-img-top" src="{{url_for('static', filename='images/gingkologo.png')}}" alt="Card image cap"
+                , style="width:62px;height:51px;">
+            <a class="navbar-brand" href="{{url_for('albums', message=user_email) }}">Tree-search</a>
 
-            </ul>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+                aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item active">
+                        <a class="nav-link" href="{{url_for('albums', message=user_email) }}">Albums </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{url_for('createalbum', message=user_email) }}">Create Album</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{url_for('browseusers', message=user_email) }}">Browse Users</a>
+                    </li>
+
+
+                </ul>
+
+                <form class="form-inline d-flex" style="display:flex"
+                    action="{{url_for('otheralbums', message=user_email) }}" method="POST">
+                    <input class="form-control me-2" id="other_email" name="other_email" type="text"
+                        placeholder="Search Users" aria-label="Search">
+                    <button style="margin-right:15px" class="btn btn-outline-success my-2 my-sm-0"
+                        type="submit">Search</button>
+                </form>
+            </div>
         </div>
     </nav>
 
-    <br>
-    <br>
-    <br>
 
     <section class="bg-light pt-5 pb-5 shadow-sm">
 
@@ -96,7 +106,14 @@
                     <div class="card-body">
                         <h4 class="card-title h5 h4-sm">{{jdata[1]}}</h4>
                         <p class="card-text">{{jdata[2]}}</p>
-                        <a href="#" class="btn btn-primary mt-auto align-self-start" id="delete_button">Delete</a>
+
+                        <form id="deleteform2" method="POST" action="{{url_for('deleteentry', message=user_email) }}">
+                            <input type="hidden" name="imagelink" value={{jdata[0]}}>
+                            <input type="hidden" name="associatedalbum" value={{jdata[3]}}>
+                            <button type="button" onclick="confirmDeletion2()"
+                                class="btn btn-primary mt-auto align-self-start delete_button"
+                                id="delete_button">Delete</button>
+                        </form>
                     </div>
                     <div class="date">
                         <p>01/01/2025</p>
@@ -135,6 +152,44 @@
         })
 
     </script>
+
+    <script>function confirmDeletion2() {
+            const parentDiv = event.target.parentNode;
+
+            swal({
+                title: "Are you sure you want to delete this entry?",
+                text: "All entry contents will be lost",
+                icon: "warning",
+                buttons: {
+                    cancel: {
+                        text: "No",
+                        value: null,
+                        visible: true,
+                        className: "",
+                        closeModal: true,
+                    },
+                    confirm: {
+                        text: "Yes, delete my entry",
+                        value: true,
+                        visible: true,
+                        className: "",
+                        closeModal: true
+                    }
+                },
+                dangerMode: true,
+            })
+                .then((value) => {
+                    console.log("im in the then statement")
+                    const val = value;
+                    console.log(val)
+                    if (val == true) {
+
+
+
+                        parentDiv.submit();
+                    }
+                });
+        }</script>
 
     <script type="text/javascript">$("#close-btn").click(function () {
             $("#show_image_popup").fadeOut()
