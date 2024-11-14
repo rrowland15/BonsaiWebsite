@@ -5,10 +5,15 @@ import tkinter as tk
 from tkinter import filedialog
 import logging
 import sqlite3
+import zmq
 
 from gcstorage_interaction import delete_blob, upload_blob
 from imagemetadata import get_image_info
 from generateurl import generateurl
+from dateutil import parser
+import datetime
+
+
 
 
 logging.basicConfig(level=logging.DEBUG)
@@ -43,6 +48,7 @@ def login():
 
         if userexists[0][0] == 1:
             print("userexists",userexists)
+            #password encryption microservice
 
             return redirect(url_for('albums', message=user_email))   #we login via this path
 
@@ -75,6 +81,7 @@ def register():
 
 
         else:
+            #password encryption microservice
             newUserQuery = '''Insert Into UserInfo(email,password) Values({},{})'''.format(user_email,user_password)
             count = cursor.execute(newUserQuery)
             connection.commit()
@@ -229,6 +236,25 @@ def createalbum():
         print(request.form)
         print(request.files)
 
+        #Call for Microservice B:
+        context = zmq.Context()
+        socket = context.socket(zmq.REQ)
+        socket.connect("tcp://127.0.0.1:5555")              # tcp socket 1
+        photoMetadata = request.form['imageAlbumMetaData']
+        socket.send_string(photoMetadata) #send data to MicroserviceB
+
+        albumdate = None
+
+        while albumdate== None:
+            context = zmq.Context()
+            socket = context.socket(zmq.REP)
+            socket.bind("tcp://127.0.0.1:5557")             # tcp socket 2
+            albumdate = socket.recv().decode('utf-8')
+            albumdate = parser.parse(albumdate)
+            print("albumdate",albumdate,type(albumdate))
+        
+            
+
         urlcreatedforalbum = generateurl()
     
         username = "album@gmail.com"    #this should be the same as blob location in final
@@ -252,23 +278,44 @@ def createalbum():
         journalimages = []
         journalnames = []
         journalcontents = []
+        journalmetadatas = []
 
         for key,val in request.files.items(): #journal images
             if key!= "imageAlbumUpload":
                 journalimages.append(val)
 
-        count = 3
+        count = 4
         for key,val in request.form.items():
-            if key!= "albumname" and key!= "albumcontents-input":
+            if key!= "albumname" and key!= "albumcontents-input" and key!='imageAlbumMetaData':
 
-                if count%2: journalcontents.append(val)
-                else: journalnames.append(val)
+                if count%3==1: journalnames.append(val)
+                elif count%3 ==2: journalcontents.append(val)
+                else: 
+                     #Call for Microservice B:
+                    context = zmq.Context()
+                    socket = context.socket(zmq.REQ)
+                    socket.connect("tcp://127.0.0.1:5555")              # tcp socket 1
+                    photoMetadata = request.form['imageAlbumMetaData']
+                    socket.send_string(val) #send data to MicroserviceB
+
+                    albumdate = None
+
+                    while albumdate== None:
+                        context = zmq.Context()
+                        socket = context.socket(zmq.REP)
+                        socket.bind("tcp://127.0.0.1:5557")             # tcp socket 2
+                        albumdate = socket.recv().decode('utf-8')
+                        albumdate = parser.parse(albumdate)
+                        print("albumdate",albumdate,type(albumdate))
+                        journalmetadatas.append(albumdate)
+
                 count+=1
 
         
         print("here check",journalimages)
         print("journalnames",journalnames)
         print("journalcontents", journalcontents)
+        print("journalmetadata",journalmetadatas)
         
         #store album info in blob
         bucket_name = "treephotos"
@@ -290,7 +337,8 @@ def createalbum():
         tempalbumname = '"'+albumname+'"'
         tempalbumcontents = '"'+albumcontents+'"'
         tempstrippedalbumname = '"'+strippedalbumname+'"'
-        query = '''Insert Into UserTreePictures Values ({}, {}, True,{}, {}, {}, "1/1/2025")'''.format(user_email,tempname,tempstrippedalbumname,tempalbumname,tempalbumcontents)
+        # tempalbumdate = '"'+albumdate+'"'
+        query = '''Insert Into UserTreePictures Values ({}, {}, True,{}, {}, {}, {})'''.format(user_email,tempname,tempstrippedalbumname,tempalbumname,tempalbumcontents,'"'+str(albumdate)+'"')
         count = cursor.execute(query)
         connection.commit()
         print("Executed")
@@ -300,6 +348,7 @@ def createalbum():
             journalimage = journalimages[i]
             journalname = journalnames[i]
             journalcontent = journalcontents[i]
+            journalmetadata = journalmetadatas[i]
             urlcreatedforjournalentry = generateurl()
 
             # store journal entry in blob
@@ -320,7 +369,8 @@ def createalbum():
             tempname2 = '"'+urlcreatedforjournalentry+'.jpg"'
             tempjournalname = '"'+journalname+'"'
             tempjournalcontents = '"'+journalcontent+'"'
-            query = '''Insert Into UserTreePictures Values ({}, {}, False,{}, {}, {}, "1/1/2025")'''.format(user_email, tempname2,tempstrippedalbumname,tempjournalname,tempjournalcontents)
+            tempjournalmetadata = '"'+str(journalmetadata)+'"'
+            query = '''Insert Into UserTreePictures Values ({}, {}, False,{}, {}, {}, {})'''.format(user_email, tempname2,tempstrippedalbumname,tempjournalname,tempjournalcontents,tempjournalmetadata)
             print(query)
             count = cursor.execute(query)
             connection.commit()
@@ -349,7 +399,7 @@ def entrytemplate():
 
     connection = sqlite3.connect("sqlite/mytest.db")
     cursor = connection.cursor()
-    query = '''SELECT imagelink, imagetitle, imagedescription, associatedalbum from UserTreePictures Where associatedalbum = {} and albumcover = False'''.format(associatedalbum)
+    query = '''SELECT imagelink, imagetitle, imagedescription, associatedalbum, picturedate from UserTreePictures Where associatedalbum = {} and albumcover = False'''.format(associatedalbum)
     journaldata = cursor.execute(query).fetchall()
 
     query2 = '''SELECT imagelink, imagetitle, imagedescription, associatedalbum from UserTreePictures Where associatedalbum = {} and albumcover = True'''.format(associatedalbum)
@@ -364,8 +414,9 @@ def entrytemplate():
 @app.route("/otherentrytemplate", methods=['GET', 'POST'])
 def otherentrytemplate():
 
+
     user_email = request.args.get('message')
-    print(user_email)
+    print("other entry template", user_email)
    
     print(request.form)
     associatedalbum = request.form["associatedalbum"]
@@ -374,7 +425,7 @@ def otherentrytemplate():
 
     connection = sqlite3.connect("sqlite/mytest.db")
     cursor = connection.cursor()
-    query = '''SELECT imagelink, imagetitle, imagedescription, associatedalbum from UserTreePictures Where associatedalbum = {} and albumcover = False'''.format(associatedalbum)
+    query = '''SELECT imagelink, imagetitle, imagedescription, associatedalbum, picturedate from UserTreePictures Where associatedalbum = {} and albumcover = False'''.format(associatedalbum)
     journaldata = cursor.execute(query).fetchall()
 
     query2 = '''SELECT imagelink, imagetitle, imagedescription, associatedalbum from UserTreePictures Where associatedalbum = {} and albumcover = True'''.format(associatedalbum)
@@ -383,7 +434,7 @@ def otherentrytemplate():
     #     pass
 
     
-    return render_template("entrytemplate.j2", journaldata=journaldata,albumdata=albumdata,user_email=user_email)
+    return render_template("otherentries.j2", journaldata=journaldata,albumdata=albumdata,user_email=user_email)
 
 
 # @app.route('/upload', methods=['GET','POST'])

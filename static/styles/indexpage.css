@@ -43,7 +43,7 @@
     background-color: red;
     border: none;
     position: absolute;
-    top: +1rem;
+    top: +2rem;
     right: +1rem;
 
     /* adjust the top position of the button */
@@ -59,7 +59,7 @@
     background-color: red;
     border: none;
     position: absolute;
-    top: +1rem;
+    top: +2rem;
     right: +1rem;
     box-shadow: 3px 3px 3px white;
     transform: scale(1.02);

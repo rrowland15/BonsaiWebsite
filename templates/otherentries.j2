@@ -82,11 +82,7 @@
                         <h2 class="text">{{adata[1]}}</h2>
 
                     </div>
-                    <div>
-                        <a href="/createalbum" class="btn btn-primary mt-auto align-self-start"
-                            style="background-color:black;border-color:none;" id="new_album">Edit
-                            Album</a>
-                    </div>
+
                 </div>
                 <h4 class="border-bottom mb-4">{{adata[2]}}</h4>
             </div>
@@ -106,10 +102,9 @@
                     <div class="card-body">
                         <h4 class="card-title h5 h4-sm">{{jdata[1]}}</h4>
                         <p class="card-text">{{jdata[2]}}</p>
-                        <a href="#" class="btn btn-primary mt-auto align-self-start" id="delete_button">Delete</a>
                     </div>
                     <div class="date">
-                        <p>01/01/2025</p>
+                        <p>{{jdata[4]}}</p>
                     </div>
                 </div>
                 {%endfor%}

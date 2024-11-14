@@ -36,7 +36,7 @@ def upload():
 
     treepic = request.form["imagefile"]
 
-    # this could be a mircoservice
+    # this could be a microservice
     bucket_name = "treephotos"
     destination_blob_name = "somenewname"
     storage_client = storage.Client()
