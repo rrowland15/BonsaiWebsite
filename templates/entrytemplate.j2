@@ -16,7 +16,9 @@
 </head>
 
 <body>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <!-- script -->
+    {#
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3"
@@ -26,7 +28,7 @@
         crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.min.js"
         integrity="sha384-IDwe1+LCz02ROU9k972gdyvl+AESN10+x7tBKgc9I5HFtuNz0wWnPclzo6p9vxnk"
-        crossorigin="anonymous"></script>
+        crossorigin="anonymous"></script> #}
     <script src="{{url_for('static', filename='js/script.js' )}}"></script>
 
     <!-- Navbar -->
@@ -70,6 +72,10 @@
 
     <section class="bg-light pt-5 pb-5 shadow-sm">
 
+        <button type="button" style="float:right; margin-right: 15px; background-color:rgb(70, 142, 66)"
+            class="btn btn-secondary mt-auto align-self-end arrange_button"
+            onclick="arrangechronologically()">Arrange</button>
+
         <button type="button" onclick="helpButton()"
             style="float:right; margin-right: 15px; background-color:rgb(70, 142, 66)"
             class="btn btn-secondary mt-auto align-self-end" id="help_button">Help</button>
@@ -93,6 +99,8 @@
             {%endfor%}
             <div class="row gap-3">
                 {% for jdata in journaldata %}
+                {% set journalloop = loop %}
+
                 <!--ADD CLASSES HERE d-flex align-items-stretch-->
                 <div class="card flex-row supercard" id="enhance">
                     <div class="trythis">
@@ -107,6 +115,17 @@
                         <h4 class="card-title h5 h4-sm">{{jdata[1]}}</h4>
                         <p class="card-text">{{jdata[2]}}</p>
 
+
+
+
+                    </div>
+                    <div class="holder">
+                        <p class="date">{{jdata[4]}}</p>
+                        <button type="button" onclick="unhideComments()"
+                            class="btn btn-info mx-auto align-self-end comment_button" id="comment_button">View
+                            Comments &#10090;{{(user_comments[journalloop.index0].values()|list)[0]["comments"] |
+                            length}}&#10091;
+                        </button>
                         <form id="deleteform2" method="POST" action="{{url_for('deleteentry', message=user_email) }}">
                             <input type="hidden" name="imagelink" value={{jdata[0]}}>
                             <input type="hidden" name="associatedalbum" value={{jdata[3]}}>
@@ -115,10 +134,24 @@
                                 id="delete_button">Delete</button>
                         </form>
                     </div>
-                    <div class="date">
-                        <p>{{jdata[4]}}</p>
-                    </div>
                 </div>
+
+
+                <div class="card border-info comment" style="width:100%;display:none">
+                    <div class="card-header">Comments</div>
+                    {% for comment in (user_comments[journalloop.index0].values()|list)[0]["comments"] %}
+                    <div class="card-body">
+                        <h5 class="card-title">
+                            {{(user_comments[journalloop.index0].values()|list)[0]["user"][loop.index-1]}}</h5>
+                        <p class="card-text">
+                            {{(user_comments[journalloop.index0].values()|list)[0]["date"][loop.index-1]}}</p>
+                        <p class="card-text">{{comment}}</p>
+                    </div>
+                    {%endfor%}
+                </div>
+
+
+
                 {%endfor%}
             </div>
         </div>
@@ -151,6 +184,19 @@
             $('#image_popup').show();
         })
 
+    </script>
+
+    <script>function unhideComments() {
+            console.log("made it into function");
+            element = event.target;
+            sibling = element.parentNode.parentNode.nextElementSibling
+            console.log(sibling)
+            if (sibling.style.display === "none") {
+                sibling.style.display = "inline";
+            } else {
+                sibling.style.display = "none";
+            }
+        }
     </script>
 
     <script>function confirmDeletion2() {
@@ -203,8 +249,59 @@
             });
         }</script>
 
+    <script>function arrangechronologically() {
+            console.log("in arrange");
+            commentcards = document.querySelectorAll('.comment');
+            journalcards = document.querySelectorAll('.supercard');
+            const dates = document.querySelectorAll('.date');
+            const map1 = [...dates].map(x => x.textContent);
+            console.log(map1)
+
+            const zip = (a, b) => a.map((k, i) => [k, b[i]]);
+            let zipped = [];
+            for (let i = 0; i < dates.length; i++) {
+                const temp_arr = []
+                const date = dates[i].textContent
+                const commentcard = commentcards[i]
+                const journalcard = journalcards[i]
+                zipped.push([date, journalcard, commentcard])
+            }
+
+            arrange_button = document.querySelectorAll('.arrange_button')[0]
+            console.log(arrange_button)
+            console.log(arrange_button.id)
+
+            console.log(zipped.sort())
+            var wrapper = document.querySelector(".gap-3")
+
+
+            if (arrange_button.id != "order") {
+                console.log("scenario1");
+                for (let i = 0; i < zipped.length; i++) {
+                    wrapper.appendChild(zipped[i][1])
+                    wrapper.appendChild(zipped[i][2])
+                };
+                arrange_button.id = "order";
+            } else {
+                zipped = zipped.reverse();
+                console.log("scenario2");
+                for (let i = 0; i < zipped.length; i++) {
+                    wrapper.appendChild(zipped[i][1])
+                    wrapper.appendChild(zipped[i][2])
+                };
+                arrange_button.id = "reverseorder";
+
+            }
+
+
+        }</script>
+
 
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 
 
 

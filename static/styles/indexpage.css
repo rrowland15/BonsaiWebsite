@@ -44,7 +44,7 @@
     border: none;
     position: absolute;
     top: +2rem;
-    right: +1rem;
+    right: +0.75rem;
 
     /* adjust the top position of the button */
 
@@ -52,6 +52,14 @@
     /* transform: translate(+200%, -1000%); */
     /* center the button */
     z-index: 2;
+}
+
+.comment_button {
+
+    position: absolute;
+    bottom: +2rem;
+    right: +0.75rem;
+
 }
 
 .card:hover .delete_button:hover {

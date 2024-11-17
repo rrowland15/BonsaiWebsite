@@ -12,6 +12,7 @@ from imagemetadata import get_image_info
 from generateurl import generateurl
 from dateutil import parser
 import datetime
+import pickle
 
 
 
@@ -42,15 +43,32 @@ def login():
         connection = sqlite3.connect("sqlite/users.db")
         cursor = connection.cursor()
 
-        query = 'SELECT COUNT(email) FROM UserInfo WHERE email = {} and password = {}'.format(user_email,user_password)
+        query = 'SELECT password FROM UserInfo WHERE email = {}'.format(user_email)
         userexists = cursor.execute(query).fetchall()
         cursor.close()
+        print("entrypoint",userexists,userexists[0])
 
-        if userexists[0][0] == 1:
+        if userexists[0][0] != None:
             print("userexists",userexists)
-            #password encryption microservice
+            #password hash check microservice
+            context = zmq.Context()
+            socket = context.socket(zmq.REQ)
+            socket.connect("tcp://127.0.0.1:5570")
+            encrypt = ["verify",user_password,userexists[0][0]]
+            serialized_list = pickle.dumps(encrypt)
+            socket.send(serialized_list)
 
-            return redirect(url_for('albums', message=user_email))   #we login via this path
+            # Receive the response (if any)
+            user_hash = pickle.loads(socket.recv())
+            print("here is my hash",user_hash)
+
+            if user_hash[1] == "True":
+                return redirect(url_for('albums', message=user_email))   #we login via this path
+
+            else:
+                flash('Incorrect password or username')
+                print("incorrect password")
+                return redirect("/login")
 
         else:
             flash('Incorrect password or username')
@@ -82,7 +100,19 @@ def register():
 
         else:
             #password encryption microservice
-            newUserQuery = '''Insert Into UserInfo(email,password) Values({},{})'''.format(user_email,user_password)
+            context = zmq.Context()
+            socket = context.socket(zmq.REQ)
+            socket.connect("tcp://127.0.0.1:5570")
+            encrypt = ["register",user_password]
+            serialized_list = pickle.dumps(encrypt)
+            socket.send(serialized_list)
+
+            # Receive the response (if any)
+            user_hash = pickle.loads(socket.recv())
+            print("here is my hash",user_hash)
+            user_hash = "'"+user_hash[1]+"'"
+
+            newUserQuery = '''Insert Into UserInfo(email,password) Values({},{})'''.format(user_email,user_hash)
             count = cursor.execute(newUserQuery)
             connection.commit()
             cursor.close()
@@ -406,9 +436,26 @@ def entrytemplate():
     albumdata = cursor.execute(query2).fetchall()
     # if request.method == 'POST':
     #     pass
-
     
-    return render_template("entrytemplate.j2", journaldata=journaldata,albumdata=albumdata,user_email=user_email)
+    #user_comments = []
+    #user_comments = [{'':{"comments":[],"date":[],"user":[]}},{'430F911F122t245q380V.jpg':{"comments":["Holy Cow!","Nice Work"],"date":["01/01/2025","01/02/2025"],"user":["Ryan","Mae"]}}]
+    #user_comments = [{'430F911F122t245q380V.jpg':{"comments":["Holy Cow!","Nice Work"],"date":["01/01/2025","01/02/2025"],"user":["Ryan","Mae"]}}]
+    messages = ["retrieve"]
+    for entry in journaldata:
+        messages.append(entry[0])
+    
+    # Microservice C to get comments coinciding with imagelinks
+    context = zmq.Context()
+    socket = context.socket(zmq.REQ)
+    socket.connect("tcp://127.0.0.1:5560")
+    serialized_list = pickle.dumps(messages)
+    socket.send(serialized_list)
+
+    # Receive the response (if any)
+    user_comments = pickle.loads(socket.recv())
+    print("here is my message",user_comments)
+
+    return render_template("entrytemplate.j2", journaldata=journaldata,albumdata=albumdata,user_email=user_email,user_comments=user_comments)
 
 
 @app.route("/otherentrytemplate", methods=['GET', 'POST'])
@@ -432,29 +479,51 @@ def otherentrytemplate():
     albumdata = cursor.execute(query2).fetchall()
     # if request.method == 'POST':
     #     pass
+    messages = ["retrieve"]
+    for entry in journaldata:
+        messages.append(entry[0])
+    
+    # Microservice C to get comments coinciding with imagelinks
+    print(messages)
+    context = zmq.Context()
+    socket = context.socket(zmq.REQ)
+    socket.connect("tcp://127.0.0.1:5560")
+    serialized_list = pickle.dumps(messages)
+    socket.send(serialized_list)
+
+    # Receive the response (if any)
+    user_comments = pickle.loads(socket.recv())
+    print("here is my message",user_comments)
 
     
-    return render_template("otherentries.j2", journaldata=journaldata,albumdata=albumdata,user_email=user_email)
+    return render_template("otherentries.j2", journaldata=journaldata,albumdata=albumdata,user_email=user_email, user_comments=user_comments)
 
+@app.route("/addcomment", methods=['GET', 'POST'])
+def addcomment():
+    print("made it to addcomment here")
+    user_email = request.args.get('message')
+    print("other entry template", user_email)
+   
+    print(request.form)
+    user_comment = request.form["user_comment"]
+    imagelink = request.form["imagelink"]
 
-# @app.route('/upload', methods=['GET','POST'])
-# def upload():
-#     print("Here")
-#     print(request.form["test5"])
+    messages = ["post",imagelink,user_comment,user_email]
+   
+    #Microservice C to post comments coinciding with imagelinks
+    context = zmq.Context()
+    socket = context.socket(zmq.REQ)
+    socket.connect("tcp://127.0.0.1:5560")
+    serialized_list = pickle.dumps(messages)
+    socket.send(serialized_list)
 
-#     treepic = request.form["imagefile"]
+    # Receive the response (if any)
+    user_comments = pickle.loads(socket.recv())
+    print("here is my message",user_comments)
 
-#     # this could be a microservice
-#     bucket_name = "treephotos"
-#     destination_blob_name = "somenewname"
-#     storage_client = storage.Client()
-#     bucket = storage_client.bucket(bucket_name)
-#     blob = bucket.blob(destination_blob_name) # destination blob name can have a folder created by document/newfilename
-#     blob.upload_from_string(treepic)
+    
 
-#     print(f"File {treepic} uploaded to {destination_blob_name}.")
-
-#     return 'File uploaded successfully'
+    return redirect(url_for('albums', message=user_email)) 
 
 if __name__ == '__main__':
     #app.run(port=5656,debug=True)
