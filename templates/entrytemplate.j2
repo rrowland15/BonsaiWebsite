@@ -12,6 +12,8 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='styles/indexpage.css') }}">
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@40,400,0,0&icon_names=swap_vert" />
     <title>Journal Template</title>
 </head>
 
@@ -72,14 +74,31 @@
 
     <section class="bg-light pt-5 pb-5 shadow-sm">
 
-        <button type="button" style="float:right; margin-right: 15px; background-color:rgb(70, 142, 66)"
-            class="btn btn-secondary mt-auto align-self-end arrange_button"
-            onclick="arrangechronologically()">Arrange</button>
 
-        <button type="button" onclick="helpButton()"
-            style="float:right; margin-right: 15px; background-color:rgb(70, 142, 66)"
-            class="btn btn-secondary mt-auto align-self-end" id="help_button">Help</button>
         <div class="container">
+
+            <button type="button" onclick="helpButton()"
+                style="float:right; margin-right: 0px; background-color:rgb(70, 142, 66)"
+                class="btn btn-secondary mt-auto align-self-end help_button" id="help_button">Help</button>
+
+            <button type="button" style="float:right; margin-right: 10px; background-color:black"
+                class="btn btn-secondary mt-auto align-self-end arrange_button material-symbols-outlined sort_button"
+                onclick="arrangechronologically()">
+
+                swap_vert
+
+            </button>
+            <div>
+                <a href="{{url_for('createalbum', message=user_email) }}"
+                    class="btn btn-primary mt-auto align-self-start"
+                    style="float:right; margin-right: 10px;background-color:black;border-color:none;"
+                    id="edit_album">Edit
+                    Album</a>
+            </div>
+
+
+
+
             {% for adata in albumdata %}
             <div class="row">
                 <div id="trial">
@@ -88,11 +107,7 @@
                         <h2 class="text">{{adata[1]}}</h2>
 
                     </div>
-                    <div>
-                        <a href="/createalbum" class="btn btn-primary mt-auto align-self-start"
-                            style="background-color:black;border-color:none;" id="new_album">Edit
-                            Album</a>
-                    </div>
+
                 </div>
                 <h4 class="border-bottom mb-4">{{adata[2]}}</h4>
             </div>
@@ -130,7 +145,7 @@
                             <input type="hidden" name="imagelink" value={{jdata[0]}}>
                             <input type="hidden" name="associatedalbum" value={{jdata[3]}}>
                             <button type="button" onclick="confirmDeletion2()"
-                                class="btn btn-primary mt-auto align-self-start delete_button"
+                                class="btn btn-primary mt-auto align-self-start delete_button2"
                                 id="delete_button">Delete</button>
                         </form>
                     </div>
@@ -169,6 +184,9 @@
 
             <!--     popup image -->
         </div>
+    </div>
+
+    <div id="data-container" data-journaldata='{{ journaldata | tojson }}' data-albumdata='{{ albumdata | tojson }}'>
     </div>
 
 
@@ -295,6 +313,44 @@
 
 
         }</script>
+
+    <script>
+        $(function () {
+            // Fetch the data embedded in the template
+            var res = document.getElementById('data-container');
+
+            var jd = res.getAttribute('data-journaldata');
+            var ad = res.getAttribute('data-albumdata');
+            var data = { jou: jd, alb: ad };
+
+            // Send data in a POST request
+            $("#edit_album").on("click", function (e) {
+                e.preventDefault(); // Prevent default behavior
+                console.log("in route");
+                console.log("data", data)
+                var myurl = $(this).attr('href');
+                console.log(myurl)
+                console.log("data", data)
+
+
+                // Example POST request
+                $.ajax({
+                    url: myurl,
+                    type: 'POST',
+                    data: JSON.stringify(data),
+                    contentType: 'application/json',
+                    success: function (response) {
+                        if (response.redirect_url) {
+                            window.location.href = response.redirect_url;
+                        }
+                    },
+                    error: function (error) {
+                        console.error("Post failed:", error);
+                    },
+                });
+            });
+        });
+    </script>
 
 
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>

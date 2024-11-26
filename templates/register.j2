@@ -45,7 +45,13 @@
                 style="background-color:black;border-color:none;display: block; margin: 0 auto;width: 450px;"
                 id="new_album">Register</button>
             <br>
+            {% for message in get_flashed_messages() %}
 
+            <div class="alert alert-danger" role="alert">
+                {{message}}
+            </div>
+
+            {% endfor %}
 
         </div>
 

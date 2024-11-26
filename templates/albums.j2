@@ -61,28 +61,33 @@
 
     <!-- album card intro-->
     <section class="bg-light pt-5 pb-5 shadow-sm">
-        <button type="button" onclick="helpButton()"
-            style="float:right; margin-right: 15px; background-color:rgb(70, 142, 66);display:flex"
-            class="btn btn-secondary mt-auto align-self-end" id="help_button">Help</button>
+
         <div class="container">
+
+
+
+            <button type="button" onclick="helpButton()"
+                style="float:right; margin-right: 0px; background-color:rgb(70, 142, 66)"
+                class="btn btn-secondary mt-auto align-self-end help_button" id="help_button">Help</button>
+            <a href="{{url_for('createalbum', message=user_email) }}" class="btn btn-primary mt-auto align-self-start"
+                style="float:right; margin-right: 15px;background-color:black;border-color:none;display:flex"
+                id="new_album">Create New
+                Album</a>
             <div class="row">
-                <div class="col-12">
-                    <div id="trial">
-                        <div>
+                <div id="trial">
+                    <div>
 
-                            <h2 class="text-lowercase">{{user_email}}</h2>
+                        <h2 class="text-lowercase">{{user_email}}</h2>
 
-                        </div>
-                        <div>
-                            <a href="{{url_for('createalbum', message=user_email) }}"
-                                class="btn btn-primary mt-auto align-self-start"
-                                style="background-color:black;border-color:none;display:flex" id="new_album">Create New
-                                Album</a>
-                        </div>
                     </div>
-                    <h4 class="border-bottom mb-4">Albums</h4>
+
+
+
+
                 </div>
+                <h4 class="border-bottom mb-4">Albums</h4>
             </div>
+
 
 
             <!-- start album cards-->
